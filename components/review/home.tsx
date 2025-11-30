@@ -1,6 +1,8 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import AntDesign from '@expo/vector-icons/AntDesign';
+import CreateModal from "./create.modal";
 
 interface IDetail {
     id: number;
@@ -28,9 +30,18 @@ const HomeScreen = () => {
         {id: 3, title: "Detail 3", content: "This is detail 3", star: 3},
     ]);
 
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const addnew = (item: IDetail) => {
+        setDetail([...detail, item]);
+    }
+
     return (
         <View>
-            <Text>Home screen</Text>
+            <Text>List todo:</Text>
+            <View style={{ alignItems: 'center', padding: 10 }}>
+                <AntDesign name="plus" size={24} color="orange" onPress={() => setModalVisible(true)}/>
+            </View>
             <View>
                 <FlatList 
                     data={detail} 
@@ -46,6 +57,12 @@ const HomeScreen = () => {
                     )} 
                 />
             </View>
+
+            <CreateModal 
+                modalVisible={modalVisible} 
+                setModalVisible={setModalVisible}
+                addnew={addnew}
+            />
         </View>
     )
 }
